@@ -1,12 +1,12 @@
 #!/bin/bash
 
-login_url="${1}"
-login_user="${2}"
-login_password="${3}"
-login_otp="${4}"
+export login_url="${1:-$login_url}"
+export login_user="${2:-$login_user}"
+export login_password="${3:-$login_password}"
+export login_otp="${4:-$login_otp}"
 
-vpn_host="${5}"
-vpn_port="${6:-443}"
+export vpn_host="${5:-$vpn_host}"
+export vpn_port="${6:-$vpn_port}"
 
 temp_file=$(mktemp)
 
@@ -14,8 +14,10 @@ echo
 echo "Fetching the authentication token..."
 echo
 
-docker run -i --init --cap-add=SYS_ADMIN --rm ghcr.io/puppeteer/puppeteer:latest \
-  node -e "$(cat login.js)" "${login_url}" "${login_user}" "${login_password}" "${login_otp}" \
+docker run -i --init --cap-add=SYS_ADMIN --rm \
+  -e login_url -e login_user -e login_password -e login_otp \
+  ghcr.io/puppeteer/puppeteer:latest \
+  node -e "$(cat login.js)" \
   2> "${temp_file}"
 
 echo

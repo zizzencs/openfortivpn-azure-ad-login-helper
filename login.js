@@ -1,9 +1,9 @@
 const puppeteer = require('puppeteer');
 
-const initialUrl = process.argv[1] || 'https://connect.company.com/login';
-const emailAddress = process.argv[2] || 'user@company.com';
-const password = process.argv[3] || 'password';
-const otp = process.argv[4] || null;
+const initialUrl = process.env.login_url || 'https://connect.company.com/login';
+const emailAddress = process.env.login_user || 'user@company.com';
+const password = process.env.login_password || 'password';
+const otp = process.env.login_otp || null;
 
 const waitForSelectorTimeout = 2000;
 
